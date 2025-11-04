@@ -60,20 +60,23 @@ public class HallService {
         Pageable pageable= PageRequest.of(pageNo, pageSize);
         Page<Hall> halls=hallRepository.findAll(pageable);
         List<HallDto>hallDtoList=new ArrayList<>();
-        for(Hall h:halls){
-            HallDto hallDto1=new HallDto();
-            hallDto1.setId(h.getId());
-            hallDto1.setName(h.getName());
-            hallDto1.setCapacity(h.getCapacity());
-            hallDto1.setPrice(h.getPrice());
-            hallDto1.setStatus(h.getStatus());
-            hallDtoList.add(hallDto1);
+        for(Hall h:halls) {
+            if (!h.isDeleted()) {
+                HallDto hallDto1 = new HallDto();
+                hallDto1.setId(h.getId());
+                hallDto1.setName(h.getName());
+                hallDto1.setCapacity(h.getCapacity());
+                hallDto1.setPrice(h.getPrice());
+                hallDto1.setStatus(h.getStatus());
+                hallDtoList.add(hallDto1);
+            }
         }
         return  new PageImpl<>(hallDtoList,pageable,halls.getTotalElements());
     }
     public void deletedHall(long id){
-        hallRepository.findById(id).orElseThrow(()->new HallHandlerException("id not found"));
-        hallRepository.deleteById(id);
+      Hall hall=  hallRepository.findById(id).orElseThrow(()->new HallHandlerException("id not found"));
+     hall.setDeleted(true);
+     hallRepository.save(hall);
     }
     public HallDto getById(long id){
       Hall hall=  hallRepository.findById(id).orElseThrow(()->new HallHandlerException("id not found"));

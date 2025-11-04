@@ -9,7 +9,15 @@ public class Professor {
     long id;
     String name;
     String email;
+    private boolean isDeleted;
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
 
     public String getName() {

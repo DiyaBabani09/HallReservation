@@ -12,6 +12,15 @@ public class Hall {
     private int capacity;
    private String status;
    private double price;
+   private boolean isDeleted;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     public double getPrice() {
         return price;

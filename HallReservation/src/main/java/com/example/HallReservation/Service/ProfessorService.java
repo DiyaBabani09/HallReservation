@@ -24,10 +24,12 @@ public class ProfessorService {
     }
 
     public ProfessorDto saveProfessor(ProfessorDto professorDto){
-        if(professorDto!=null){
+        if(professorDto.getEmail()!=null && professorDto.getName()!=null){
            Optional<Professor> professor= professorRepository.findByEmail(professorDto.getEmail());
            if(professor.isPresent()){
-               throw new RuntimeException("email is registered");
+               throw new ProfessorHandleException("email is registered");
+           }else{
+               throw new ProfessorHandleException("please enter your name and email");
            }
         }
         Professor p =new Professor();
@@ -46,12 +48,14 @@ public class ProfessorService {
         Pageable pageable= PageRequest.of(pageNo,pageSize);
         Page<Professor>p=professorRepository.findAll(pageable);
         List<ProfessorDto>professorDtoList=new ArrayList<>();
-        for(Professor page:p){
-            ProfessorDto professorDto=new ProfessorDto();
-            professorDto.setId(page.getId());
-            professorDto.setName(page.getName());
-            professorDto.setEmail(page.getEmail());
-            professorDtoList.add(professorDto);
+        for(Professor page:p) {
+            if (!page.isDeleted()) {
+                ProfessorDto professorDto = new ProfessorDto();
+                professorDto.setId(page.getId());
+                professorDto.setName(page.getName());
+                professorDto.setEmail(page.getEmail());
+                professorDtoList.add(professorDto);
+            }
         }
 return new PageImpl<>(professorDtoList,pageable,p.getTotalElements());
     }
@@ -69,8 +73,9 @@ return new PageImpl<>(professorDtoList,pageable,p.getTotalElements());
         return professorDto1;
     }
     public void deleteProfessor(long id){
-      professorRepository.findById(id).orElseThrow(()->new ProfessorHandleException("Id not found"));
-       professorRepository.deleteById(id);
+     Professor p=  professorRepository.findById(id).orElseThrow(()->new ProfessorHandleException("Id not found"));
+      p.setDeleted(true);
+       professorRepository.save(p);
     }
     public ProfessorDto getProfessorById(long id){
         Professor p=  professorRepository.findById(id).

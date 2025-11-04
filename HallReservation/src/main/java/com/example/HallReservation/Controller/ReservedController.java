@@ -2,12 +2,13 @@ package com.example.HallReservation.Controller;
 
 import com.example.HallReservation.Dto.HallDto;
 import com.example.HallReservation.Dto.ReservedDto;
-import com.example.HallReservation.Entity.Reserved;
-import com.example.HallReservation.Respository.ResevedRepository;
 import com.example.HallReservation.Service.ReservedService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,4 +31,15 @@ public class ReservedController {
         return "done";
 
     }
+    @GetMapping("/booking")
+    public ResponseEntity<List<ReservedDto>>BookingHall(){
+       return ResponseEntity.ok(reservedService.getBookingDetails());
+    }
+
+    @GetMapping("/between")
+    public ResponseEntity<List<ReservedDto>>BookingHallBetweenDate(@RequestParam(defaultValue = "2025-11-05T00:00:00") LocalDateTime startDate,
+                                                                   @RequestParam(defaultValue = "2025-11-21T00:00:00")   LocalDateTime endDate){
+        return ResponseEntity.ok(reservedService.RangeWiseDetails(startDate,endDate));
+    }
+
 }
