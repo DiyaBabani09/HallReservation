@@ -28,8 +28,6 @@ public class ProfessorService {
            Optional<Professor> professor= professorRepository.findByEmail(professorDto.getEmail());
            if(professor.isPresent()){
                throw new ProfessorHandleException("email is registered");
-           }else{
-               throw new ProfessorHandleException("please enter your name and email");
            }
         }
         Professor p =new Professor();
@@ -44,7 +42,7 @@ public class ProfessorService {
          professorDto1.setEmail(p1.getEmail());
          return professorDto1;
     }
-    public Page<ProfessorDto > GetProfessor(int pageNo,int pageSize){
+    public Page<ProfessorDto > getProfessor(int pageNo, int pageSize){
         Pageable pageable= PageRequest.of(pageNo,pageSize);
         Page<Professor>p=professorRepository.findAll(pageable);
         List<ProfessorDto>professorDtoList=new ArrayList<>();

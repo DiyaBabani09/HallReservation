@@ -24,7 +24,7 @@ public class ProfessorController {
     public ResponseEntity<Page<ProfessorDto>>getAllProfessor
             (@RequestParam(defaultValue = "0")int pageNo,
              @RequestParam(defaultValue = "2")int pageSize){
-        return ResponseEntity.ok(professorService.GetProfessor(pageNo,pageSize));
+        return ResponseEntity.ok(professorService.getProfessor(pageNo,pageSize));
 
     }
     @PutMapping("/{id}")

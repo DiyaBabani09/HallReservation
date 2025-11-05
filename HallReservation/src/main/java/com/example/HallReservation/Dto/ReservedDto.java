@@ -67,14 +67,7 @@ public class ReservedDto {
         this.capacity = capacity;
     }
 
-    public ReservedDto(LocalDateTime endDate, Hall hall, Professor professor, int id, LocalDateTime startDate, int capacity) {
-        this.endDate = endDate;
-        this.hall = hall;
-        this.professor = professor;
-        this.id = id;
-        this.startDate = startDate;
-        this.capacity = capacity;
-    }
+
 
     public ReservedDto() {
     }

@@ -5,10 +5,7 @@ import com.example.HallReservation.Dto.ReservedDto;
 import com.example.HallReservation.Service.ReservedService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -42,4 +39,9 @@ public class ReservedController {
         return ResponseEntity.ok(reservedService.RangeWiseDetails(startDate,endDate));
     }
 
+    @GetMapping("/cancel/{id}")
+    public ResponseEntity<String>CancelBooking(@PathVariable int id){
+        reservedService.cancelBooking(id);
+        return ResponseEntity.ok("Booking is Cancelled");
+    }
 }

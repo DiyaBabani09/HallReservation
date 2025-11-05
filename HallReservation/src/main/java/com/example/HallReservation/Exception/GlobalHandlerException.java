@@ -21,4 +21,10 @@ public ResponseEntity<?>hallExceptionHandler(HallHandlerException hallHandlerExc
                 hallHandlerException.getMessage(),"hall is not available");
         return new ResponseEntity<>(er,HttpStatus.NOT_FOUND);
 }
+    @ExceptionHandler(ReservationHandlerException.class)
+    public ResponseEntity<?>BookingExceptionHandler(ReservationHandlerException reservationHandlerException){
+        ErrorResponse er=new ErrorResponse(LocalDateTime.now(),
+reservationHandlerException.getMessage(),"hall is not available");
+        return new ResponseEntity<>(er,HttpStatus.NOT_FOUND);
+    }
 }

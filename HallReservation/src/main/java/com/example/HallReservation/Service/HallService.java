@@ -1,6 +1,7 @@
 package com.example.HallReservation.Service;
 
 import com.example.HallReservation.Dto.HallDto;
+import com.example.HallReservation.Dto.Status;
 import com.example.HallReservation.Entity.Hall;
 import com.example.HallReservation.Exception.HallHandlerException;
 import com.example.HallReservation.Respository.HallRepository;
@@ -28,7 +29,7 @@ public class HallService {
      h.setName(dto.getName());
      h.setCapacity(dto.getCapacity());
      h.setPrice(dto.getPrice());
-     h.setStatus(dto.getStatus());
+     h.setStatus(Status.Available);
      Hall hall=hallRepository.save(h);
      HallDto hallDto=new HallDto();
      hallDto.setId(h.getId());
@@ -36,7 +37,7 @@ public class HallService {
      hallDto.setCapacity(hall.getCapacity());
 
      hallDto.setPrice(hall.getPrice());
-     hallDto.setStatus(hall.getStatus());
+     hallDto.setStatus(Status.Available);
      return hallDto;
 
     }
@@ -46,7 +47,6 @@ public class HallService {
       h.setName(hallDto.getName());
         h.setCapacity(hallDto.getCapacity());
         h.setPrice(hallDto.getPrice());
-        h.setStatus(hallDto.getStatus());
         Hall hall=hallRepository.save(h);
         HallDto hallDto1= new HallDto();
         hallDto1.setId(hall.getId());

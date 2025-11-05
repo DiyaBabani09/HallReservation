@@ -1,5 +1,6 @@
 package com.example.HallReservation.Entity;
 
+import com.example.HallReservation.Dto.Status;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +11,9 @@ public class Hall {
     private String name;
    @Column(unique = true)
     private int capacity;
-   private String status;
+
+   @Enumerated(EnumType.STRING)
+   private Status status;
    private double price;
    private boolean isDeleted;
 
@@ -26,7 +29,7 @@ public class Hall {
         return price;
     }
 
-    public Hall(int capacity, String name, long id, double price, String status) {
+    public Hall(int capacity, String name, long id, double price, Status status) {
         this.capacity = capacity;
         this.name = name;
         this.id = id;
@@ -38,15 +41,13 @@ public class Hall {
         this.price = price;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
-
-
 
     public Hall() {
     }

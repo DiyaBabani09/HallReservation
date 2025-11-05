@@ -7,7 +7,7 @@ public class HallDto {
     private String name;
     @Column(unique = true)
     private int capacity;
-    private String status;
+    private Status status;
 private Double price;
 
     public Double getPrice() {
@@ -18,14 +18,14 @@ private Double price;
         this.price = price;
     }
 
-    public HallDto(int capacity, long id, Double price, String status, String name) {
-        this.capacity = capacity;
-        this.id = id;
-        this.price = price;
-        this.status = status;
-        this.name = name;
+
+    public Status getStatus() {
+        return status;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public int getCapacity() {
         return capacity;
@@ -51,13 +51,7 @@ private Double price;
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public HallDto() {
     }

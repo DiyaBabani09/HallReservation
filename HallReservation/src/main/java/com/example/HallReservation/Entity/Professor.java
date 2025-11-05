@@ -11,6 +11,13 @@ public class Professor {
     String email;
     private boolean isDeleted;
 
+    public Professor(long id, String name, String email, boolean isDeleted) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.isDeleted = isDeleted;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }

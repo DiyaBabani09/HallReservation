@@ -1,10 +1,10 @@
 package com.example.HallReservation.Entity;
 
+import com.example.HallReservation.Dto.Status;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 @Entity
 public class Reserved {
     @Id
@@ -12,14 +12,25 @@ public class Reserved {
     private  int id;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-@ManyToOne
+
+    @ManyToOne
     @JoinColumn(name = "hall_id")
     private Hall hall;
 private int capacity;
-
- @ManyToOne
+@ManyToOne
     @JoinColumn(name="professor_id")
     private Professor professor;
+
+@Enumerated(EnumType.STRING)
+private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public LocalDateTime getEndDate() {
         return endDate;
@@ -69,14 +80,7 @@ private int capacity;
         this.capacity = capacity;
     }
 
-    public Reserved(LocalDateTime endDate, Hall hall, Professor professor, int id, LocalDateTime startDate, int capacity) {
-        this.endDate = endDate;
-        this.hall = hall;
-        this.professor = professor;
-        this.id = id;
-        this.startDate = startDate;
-        this.capacity = capacity;
-    }
+
 
     public Reserved() {
     }

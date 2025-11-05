@@ -29,11 +29,7 @@ public class ProfessorDto {
         this.email = email;
     }
 
-    public ProfessorDto(int id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
+
 
     public ProfessorDto() {
     }
