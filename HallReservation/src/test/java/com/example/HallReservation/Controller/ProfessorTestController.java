@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@WebMvcTest(ProfessorTestController.class)
+
 public class ProfessorTestController extends AbstractTest{
 
         @Override
@@ -24,8 +24,8 @@ public class ProfessorTestController extends AbstractTest{
             super.setUp();
         }
     @Test
-    public void getProductsList() throws Exception {
-        String uri = "/products";
+    public void getProfessorList() throws Exception {
+        String uri = "/professor";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
