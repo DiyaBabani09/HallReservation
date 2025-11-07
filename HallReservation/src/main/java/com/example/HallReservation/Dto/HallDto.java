@@ -10,6 +10,14 @@ public class HallDto {
     private Status status;
 private Double price;
 
+    public HallDto(int capacity, long id, String name, Double price, Status status) {
+        this.capacity = capacity;
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.status = status;
+    }
+
     public Double getPrice() {
         return price;
     }

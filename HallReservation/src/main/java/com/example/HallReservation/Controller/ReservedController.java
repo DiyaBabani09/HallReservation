@@ -3,6 +3,7 @@ package com.example.HallReservation.Controller;
 import com.example.HallReservation.Dto.HallDto;
 import com.example.HallReservation.Dto.ReservedDto;
 import com.example.HallReservation.Service.ReservedService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -23,13 +24,13 @@ public class ReservedController {
 
     }
     @PostMapping("/{id}")
-    public String Booking(@PathVariable long id, @RequestBody ReservedDto reservedDto){
+    public ResponseEntity<?> Booking(@PathVariable long id, @RequestBody ReservedDto reservedDto){
         reservedService.BookAHall(id,reservedDto);
-        return "done";
+ return ResponseEntity.status(HttpStatus.CREATED).body("Done");
 
     }
     @GetMapping("/booking")
-    public ResponseEntity<List<ReservedDto>>BookingHall(){
+    public ResponseEntity<List<ReservedDto>>getBookingHall(){
        return ResponseEntity.ok(reservedService.getBookingDetails());
     }
 

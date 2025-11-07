@@ -78,15 +78,19 @@ public class HallService {
      hall.setDeleted(true);
      hallRepository.save(hall);
     }
-    public HallDto getById(long id){
-      Hall hall=  hallRepository.findById(id).orElseThrow(()->new HallHandlerException("id not found"));
-        HallDto hallDto1;
-        hallDto1 = new HallDto();
-        hallDto1.setId(hall.getId());
-        hallDto1.setName(hall.getName());
-        hallDto1.setCapacity(hall.getCapacity());
-        hallDto1.setPrice(hall.getPrice());
-        hallDto1.setStatus(hall.getStatus());
-        return hallDto1;
+    public HallDto getById(long id) {
+        Hall hall = hallRepository.findById(id).orElseThrow(() -> new HallHandlerException("id not found"));
+        if (!hall.isDeleted()) {
+            HallDto hallDto1;
+            hallDto1 = new HallDto();
+            hallDto1.setId(hall.getId());
+            hallDto1.setName(hall.getName());
+            hallDto1.setCapacity(hall.getCapacity());
+            hallDto1.setPrice(hall.getPrice());
+            hallDto1.setStatus(hall.getStatus());
+            return hallDto1;
+        } else {
+throw  new HallHandlerException("hall is deleted");
+        }
     }
 }

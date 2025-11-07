@@ -1,6 +1,7 @@
 package com.example.HallReservation.Controller;
 
 import com.example.HallReservation.Dto.ProfessorDto;
+import com.example.HallReservation.Exception.ProfessorHandleException;
 import com.example.HallReservation.Service.ProfessorService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,15 @@ public class ProfessorController {
         return ResponseEntity.ok(professorService.updateProfessor(professorDto,id));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String>deleteProfessor(@PathVariable  long id){
-        professorService.deleteProfessor(id);
-        return ResponseEntity.ok("deleted successfully");
+    public ResponseEntity<?>deleteProfessor(@PathVariable  long id) {
+        boolean wasDeleted = professorService.deleteProfessor(id);
+        if (wasDeleted) {
+            return ResponseEntity.status(HttpStatus.OK).body("deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Already deleted");
+        }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProfessorDto>getProfessorById(@PathVariable long id){
         return ResponseEntity.ok(professorService.getProfessorById(id));

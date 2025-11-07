@@ -19,6 +19,15 @@ public class ReservedDto {
 
     private Professor professor;
 
+    public ReservedDto(int capacity, Hall hall, LocalDateTime endDate, int id, LocalDateTime startDate, Professor professor) {
+        this.capacity = capacity;
+        this.hall = hall;
+        this.endDate = endDate;
+        this.id = id;
+        this.startDate = startDate;
+        this.professor = professor;
+    }
+
     public LocalDateTime getEndDate() {
         return endDate;
     }

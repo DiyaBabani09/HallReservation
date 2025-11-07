@@ -4,6 +4,7 @@ import com.example.HallReservation.Dto.HallDto;
 
 import com.example.HallReservation.Service.HallService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class HallController {
 
 @PostMapping
     public ResponseEntity<HallDto> createHall(@RequestBody HallDto hallDto){
-    return ResponseEntity.ok(hallService.createHalls(hallDto));
+    return ResponseEntity.status(HttpStatus.CREATED).body(hallService.createHalls(hallDto));
 
     }
     @PutMapping("/{id}")
