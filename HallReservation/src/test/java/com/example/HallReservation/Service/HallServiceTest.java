@@ -1,14 +1,11 @@
 package com.example.HallReservation.Service;
 
 import com.example.HallReservation.Dto.HallDto;
-import com.example.HallReservation.Dto.ProfessorDto;
 import com.example.HallReservation.Dto.Status;
 import com.example.HallReservation.Entity.Hall;
-import com.example.HallReservation.Entity.Professor;
 import com.example.HallReservation.Exception.HallHandlerException;
 import com.example.HallReservation.Respository.HallRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,15 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class HallServiceTest {
@@ -37,9 +29,9 @@ public class HallServiceTest {
     private HallRepository hallRepository;
     @InjectMocks
     private HallService hallService;
-    static Hall h= new Hall();
-    @BeforeAll
-    public static   void setup(){
+    Hall h= new Hall();
+    @BeforeEach
+    public  void setup(){
         h.setName("K");
         h.setPrice(2000.90);
         h.setCapacity(259);
@@ -90,6 +82,15 @@ public class HallServiceTest {
 
     }
     @Test
+    public void getHallById(){
+        long id=h.getId();
+        Mockito.when(hallRepository.findById(id)).thenReturn(Optional.of(h));
+        HallDto hallDto=hallService.getById(id);
+        Assertions.assertEquals("K",h.getName());
+        Assertions.assertEquals(2000.90,h.getPrice());
+
+    }
+    @Test
     public void deleteHall(){
         long id=h.getId();
         Mockito.when(hallRepository.findById(id)).thenReturn(Optional.of(h));
@@ -117,15 +118,6 @@ public class HallServiceTest {
   Page<HallDto>  hallDtoPage= hallService.getAllHall(0,3);
   Assertions.assertEquals(3,hallDtoPage.getTotalElements());
         assertThat(page).isNotNull();
-    }
-    @Test
-    public void getHallById(){
-        long id=h.getId();
-        Mockito.when(hallRepository.findById(id)).thenReturn(Optional.of(h));
-        HallDto hallDto=hallService.getById(id);
-        Assertions.assertEquals("K",h.getName());
-        Assertions.assertEquals(2000.90,h.getPrice());
-
     }
     @Test
     public void getHallByIdThrowsException(){

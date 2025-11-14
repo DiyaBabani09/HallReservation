@@ -1,46 +1,45 @@
 package com.example.HallReservation.Controller;
 
 import com.example.HallReservation.Dto.ReservedDto;
+import com.example.HallReservation.Dto.Status;
 import com.example.HallReservation.Entity.Hall;
 import com.example.HallReservation.Entity.Professor;
-import com.example.HallReservation.Entity.Reserved;
 import com.example.HallReservation.Respository.HallRepository;
-import com.example.HallReservation.Respository.ProfessorRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReservedControllerTest {
     @Autowired
     private HallRepository hallRepository;
     @Autowired
-    private ProfessorRepository professorRepository;
-    @Autowired
-    private RestTemplate restTemplate;
-    @LocalServerPort
-    private int port;
-    private String baseurl;
+    private TestRestTemplate testRestTemplate;
+    private final String baseurl= "/reserve";
 
-    @BeforeEach
-    public void setUp() {
-        this.baseurl = "http://localhost:" + port + "/api/reserve";
-    }
+     private static Long id;
+
 
     @Test
+    @Order(1)
     public void bookAHall() {
-        Long id = 1L;
+        Hall hall=new Hall();
+
+        hall.setName("l");
+        hall.setCapacity(700);
+        hall.setPrice(700);
+        hall.setStatus(Status.Available);
+        hallRepository.save(hall);
+        id= hall.getId();
         Hall h = hallRepository.findById(id).orElseThrow();
         Professor p = new Professor();
         p.setName("Priyanka");
@@ -51,16 +50,16 @@ public class ReservedControllerTest {
         reservedDto.setProfessor(p);
         reservedDto.setStartDate(LocalDateTime.parse("2029-08-20T08:00:00"));
         reservedDto.setEndDate(LocalDateTime.parse("2029-09-20T08:00:00"));
-        ResponseEntity<?> response;
-        response = restTemplate.postForEntity(baseurl + "/1", reservedDto, String.class);
+        ResponseEntity<?> response = testRestTemplate.postForEntity(baseurl + "/"+id, reservedDto, String.class);
         Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
 
     }
 
     @Test
+    @Order(2)
     public void getBooking() {
-        ResponseEntity<List<ReservedDto>> response = restTemplate.exchange(
+        ResponseEntity<List<ReservedDto>> response = testRestTemplate.exchange(
                 baseurl + "/booking",
                 HttpMethod.GET,
                 null,
@@ -73,7 +72,7 @@ public class ReservedControllerTest {
 
     @Test
     public void getBookingHallBetween() {
-        ResponseEntity<List<ReservedDto>> response = restTemplate.exchange(
+        ResponseEntity<List<ReservedDto>> response = testRestTemplate.exchange(
                 baseurl + "/between",
                 HttpMethod.GET,
                 null,
@@ -83,8 +82,9 @@ public class ReservedControllerTest {
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 @Test
+@Order(4)
     public void cancelBooking() {
-ResponseEntity<?>response=restTemplate.getForEntity(baseurl+"/cancel/31",String.class);
+ResponseEntity<?>response= testRestTemplate.getForEntity(baseurl+"/cancel/"+id,String.class);
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

@@ -33,20 +33,20 @@ public class ReservedService {
 
     }
 
-    public List<HallDto> reserveHall() {
-        List<Hall> hall = hallRepository.findByStatus("Available");
-        List<HallDto> hallDtoList = new ArrayList<>();
-        for (Hall h : hall) {
-            HallDto hallDto1 = new HallDto();
-            hallDto1.setId(h.getId());
-            hallDto1.setName(h.getName());
-            hallDto1.setCapacity(h.getCapacity());
-            hallDto1.setPrice(h.getPrice());
-            hallDto1.setStatus(h.getStatus());
-            hallDtoList.add(hallDto1);
-        }
-        return hallDtoList;
-    }
+//    public List<HallDto> reserveHall() {
+//        List<Hall> hall = hallRepository.findByStatus("Available");
+//        List<HallDto> hallDtoList = new ArrayList<>();
+//        for (Hall h : hall) {
+//            HallDto hallDto1 = new HallDto();
+//            hallDto1.setId(h.getId());
+//            hallDto1.setName(h.getName());
+//            hallDto1.setCapacity(h.getCapacity());
+//            hallDto1.setPrice(h.getPrice());
+//            hallDto1.setStatus(h.getStatus());
+//            hallDtoList.add(hallDto1);
+//        }
+//        return hallDtoList;
+//    }
 
     public void BookAHall(long id, ReservedDto reserved) {
         Hall h = hallRepository.findById(id).orElseThrow(() -> new HallHandlerException("Id not found"));
@@ -125,7 +125,6 @@ public class ReservedService {
             throw new ReservationHandlerException("That reservation is already done,not valid booking");
         }
         r.setStatus(Status.Cancelled);
-
         reservedRepository.save(r);
 
 

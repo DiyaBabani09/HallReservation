@@ -84,4 +84,14 @@ private Status status;
 
     public Reserved() {
     }
+
+    public Reserved(int id, Hall hall, LocalDateTime endDate, int capacity, Professor professor, LocalDateTime startDate, Status status) {
+        this.id = id;
+        this.hall = hall;
+        this.endDate = endDate;
+        this.capacity = capacity;
+        this.professor = professor;
+        this.startDate = startDate;
+        this.status = status;
+    }
 }

@@ -5,11 +5,14 @@ import com.example.HallReservation.Dto.Status;
 import com.example.HallReservation.Entity.Hall;
 import com.example.HallReservation.Exception.HallHandlerException;
 import com.example.HallReservation.Respository.HallRepository;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ public class HallService {
         this.hallRepository = hallRepository;
     }
 
-
+@CachePut(value = "hall",key = "#result.id")
     public HallDto createHalls(HallDto dto){
         Hall h=new Hall();
 
@@ -41,6 +44,8 @@ public class HallService {
      return hallDto;
 
     }
+
+    @CachePut(cacheNames = "halls",key = "#id")
     public HallDto updateHall(long id,HallDto hallDto){
       Hall h= hallRepository.findById(id).orElseThrow(()->new HallHandlerException("id does not exist"));
 
@@ -56,6 +61,7 @@ public class HallService {
         hallDto1.setStatus(hall.getStatus());
         return hallDto1;
     }
+
     public Page<HallDto> getAllHall(int pageNo,int pageSize){
         Pageable pageable= PageRequest.of(pageNo, pageSize);
         Page<Hall> halls=hallRepository.findAll(pageable);
@@ -78,6 +84,7 @@ public class HallService {
      hall.setDeleted(true);
      hallRepository.save(hall);
     }
+    @Cacheable(cacheNames = "halls",key = "#id")
     public HallDto getById(long id) {
         Hall hall = hallRepository.findById(id).orElseThrow(() -> new HallHandlerException("id not found"));
         if (!hall.isDeleted()) {
